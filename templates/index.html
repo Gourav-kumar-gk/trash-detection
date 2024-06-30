@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dandelion Trash detection</title>
+
+    <style>
+        .video-container {
+            display: flex;
+            justify-content: space-around;
+        }
+        .video-box {
+            border: 2px solid black;
+            width: 45%;
+        }
+        .results-container {
+            margin-top: 20px;
+            width: 90%;
+            margin: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <div class="video-box">
+            <h3>Original Video</h3>
+            <img src="{{ url_for('video_feed') }}" style="width: 100%;" />
+        </div>
+        <div class="video-box">
+            <h3>Processed Video</h3>
+            <img src="{{ url_for('video_feed') }}" style="width: 100%;" />
+        </div>
+    </div>
+    <div class="results-container">
+        <h3>Detection Results</h3>
+        <div id="results"></div>
+    </div>
+    <script>
+        function fetchResults() {
+            fetch('/results')
+                .then(response => response.text())
+                .then(data => document.getElementById('results').innerHTML = data);
+        }
+        setInterval(fetchResults, 5000); // Refresh every 5 seconds
+        fetchResults();
+    </script>
+</body>
+</html>
